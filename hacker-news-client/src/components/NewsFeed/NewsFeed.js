@@ -1,13 +1,47 @@
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { changeNewsFeed } from '../../store/NewsFeed/actions'
 import NewsCard from '../NewsCard/NewsCard';
-import './news-feed.css'
+import { BounceLoader } from 'react-spinners';
+import './news-feed.css';
 
-function NewsFeed(props) {
+const NewsFeed = (props) => {
+  const [IsLoading, setIsLoading] = useState(false);
+
+  async function getNews() {
+    props.changeNewsFeed(await props.getNewsFeed());
+  }
+
+  const handleNewsUpdate = async() => {
+    setIsLoading(true);
+    await getNews();
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (props.newsFeed.length === 0) {
+      handleNewsUpdate();
+    }
+  }, [])
+
+  useEffect(() => {
+  }, [props.newsFeed])
+
+  //useEffect(() => {
+  //  const interval = setInterval(() => { getNews() }, 10000);
+  //  return () => clearInterval(interval);
+  //})
 
   return (
     <main className='news-feed'>
+      <div className='news-feed__title-zone'>
+        <h1 className='news-feed__title'>Latest news</h1>
+        <button className='news-feed__button' type='button' aria-label='Update news' onClick={handleNewsUpdate} />
+      </div>
       <ul className='news-feed__list'>
-      { props.newsFeed && props.newsFeed.map((news => {
+      { IsLoading && <BounceLoader className='news-feed__loader'  color='#ff6600'/>}
+      { (!IsLoading && props.newsFeed) && props.newsFeed.filter(news => news.id !== null).map((news => {
           return <Link to={`/item/${news.id}`} className='news-feed__link'>
             <NewsCard 
               key = {news.id}
@@ -26,20 +60,12 @@ function NewsFeed(props) {
   )
 }
 
-export default NewsFeed;
+const putStateToProps = (state) => {
+  return { newsFeed: state.newsFeedReducer.newsFeed }
+}
 
-/* 
-{props.newsFeed.map((news => {
-          return <Link to={news.id} className='news-feed__link'>
-            <NewsCard 
-              key = {news.id}
-              id = {news.id}
-              title = {news.title}
-              score = {news.score}
-              by = {props.by}
-              data = {props.time}
-              url = {props.url}
-            />
-          </Link>
-        }))}
-*/
+const putActionsToProps = {
+  changeNewsFeed
+}
+
+export default connect(putStateToProps, putActionsToProps)(NewsFeed);

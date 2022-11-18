@@ -2,19 +2,39 @@ import './news-page.css'
 import moment from 'moment';
 import Comment from '../Comment/Comment';
 import { Link, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { PulseLoader } from 'react-spinners';
+import { connect } from 'react-redux';
+import { changeNewsPage, changeNewsComments } from '../../store/NewsPage/actions';
 
-function NewsPage(props) {
+const NewsPage = (props) => {
 
+  const [IsLoading, setIsLoading] = useState(false);
   const { newsId } = useParams();
 
+  async function getNewsPage(newsId) {
+    const newsPage = await props.getNewsPage(newsId);
+    props.changeNewsPage(newsPage);
+    if (typeof newsPage.kids !== 'undefined') {
+      getNewsComments(newsPage);
+    }
+  }
+
+  async function getNewsComments(newsPage) {
+    setIsLoading(true);
+    const comments = await props.getNewsComments(newsPage);
+    props.changeNewsComments(comments);
+    setIsLoading(false);
+  }
+
   useEffect(() => {
-    props.getNewsPage(newsId);
+    window.scrollTo(0, 0);
+    getNewsPage(newsId);
   }, [])
 
   return (
       <main className='news-page'>
-        <Link to='/' className='news-page__button' type='button' aria-label='Обновление' />
+        <Link to='/' className='news-page__button' type='button' aria-label='Назад' />
         {props.newsPage.url && <a className='news-page__link' href={props.newsPage.url} target='_blank' rel='noreferrer'>
           Read more
         </a>}
@@ -22,10 +42,11 @@ function NewsPage(props) {
         <div className='news-page__about'>
           <p className='news-page__info'>{props.newsPage.by}</p>
           <p className='news-page__info'>{moment.unix(props.newsPage.time).format("DD.MM.YYYY HH:mm")}</p>
-          <p className='news-page__info'>{`${props.newsPage.descendants} comments`}</p>
+          <p className='news-page__info'>{`${props.newsPage.descendants ?? 0} comments`}</p>
+          <button className='news-page__comment-button' type='button' aria-label='Обновить комментарии' onClick={async () => {await getNewsComments(props.newsPage)}} />
         </div>
-
-        {props.newsComments && props.newsComments.map((comment) => {
+        { IsLoading && <PulseLoader className='news-page__loader'  color='#ff6600'/>}
+        { (!IsLoading && props.newsComments) && props.newsComments.map((comment) => {
           return <Comment 
             key = {comment.id}
             id = {comment.id}
@@ -40,4 +61,16 @@ function NewsPage(props) {
   )
 }
 
-export default NewsPage;
+const putStateToProps = (state) => {
+  return { 
+    newsPage: state.newsPageReducer.newsPage,
+    newsComments: state.newsPageReducer.newsComments
+  }
+}
+
+const putActionsToProps = {
+  changeNewsPage,
+  changeNewsComments
+}
+
+export default connect(putStateToProps, putActionsToProps)(NewsPage);

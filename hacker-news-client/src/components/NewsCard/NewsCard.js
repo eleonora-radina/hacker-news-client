@@ -4,7 +4,7 @@ import moment from 'moment';
 function NewsCard(props) {
 
   return (
-      <li className='news-card' key={props.key} >
+      <li className='news-card' key={props.id} >
         <h2 className='news-card__title'>{props.title}</h2>
         <div className='news-card__about-zone'>
           <div className='news-card__about'>
@@ -12,7 +12,7 @@ function NewsCard(props) {
             <p className='news-card__info'>{props.by}</p>
             <p className='news-card__info'>{moment.unix(props.data).format("DD.MM.YYYY HH:mm")}</p>
           </div>
-          <a className='news-card__info news-card__info_link' href={props.url}>Read more</a>
+          <p className='news-card__info news-card__info_link' >Read more</p>
         </div>
       </li>
   )

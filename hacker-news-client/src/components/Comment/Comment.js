@@ -7,17 +7,19 @@ function Comment(props) {
 
   const [childComments, setChildComments] = useState(null);
   const [level, setLevel] = useState(0);
+  const [showChildComments, setShowChildComments] = useState(false);
+
   const text = parse(`${props.text}`);
 
   const handleChildComments = async () => {
+    setShowChildComments(!showChildComments)
+    if (showChildComments === false) {
+      setLevel(level + 1);
+    } else { setLevel(level - 1); }
+
     const comments = await props.getChildComments(props.kids);
     setChildComments(comments);
-    setLevel(level + 1);
   }
-
-  //useEffect(() => {
-//
-  //}, [childComments])
 
   return (
     <section className='comments'>
@@ -30,7 +32,7 @@ function Comment(props) {
           {props.kids &&
             <div className='comment__kids'>
               <p className='comment__about'>{props.kids.length}</p>
-              <button className='comment__button' type='button' aria-label='Показать больше' onClick={async () => {await handleChildComments()}}/>
+              <button className={`comment__button ${showChildComments ? 'comment__button_close' : ''}`} type='button' aria-label='Показать больше' onClick={async () => {await handleChildComments()}}/>
             </div>
           }
         </div>
@@ -39,7 +41,7 @@ function Comment(props) {
       </div>
       <div className='comment__children' style={{marginLeft: `${level*35}px`}}>
       {
-        childComments && childComments.map((comment) => {
+        (showChildComments && childComments) && childComments.filter(comment => comment.id !== null).map((comment) => {
           return <Comment 
             key = {comment.id}
             id = {comment.id}
