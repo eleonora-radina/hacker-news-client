@@ -1,0 +1,20 @@
+.news-feed {
+  margin: 0 auto;
+  padding: 30px 70px 30px;
+}
+
+.news-feed__link {
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.news-feed__link:hover {
+  opacity: 0.7;
+}
+
+.news-feed__list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
