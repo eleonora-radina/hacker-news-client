@@ -3,16 +3,6 @@
   padding: 30px 0 30px;
 }
 
-.news-feed__link {
-  cursor: pointer;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.news-feed__link:hover {
-  opacity: 0.7;
-}
-
 .news-feed__list {
   display: flex;
   flex-direction: column;

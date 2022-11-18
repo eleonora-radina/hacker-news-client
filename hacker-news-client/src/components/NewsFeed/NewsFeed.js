@@ -42,8 +42,7 @@ const NewsFeed = (props) => {
       <ul className='news-feed__list'>
         {IsLoading && <BounceLoader className='news-feed__loader' color='#ff6600' />}
         {(!IsLoading && props.newsFeed) && props.newsFeed.filter(news => news.id !== null).map((news => {
-          return <Link to={`/item/${news.id}`} className='news-feed__link'>
-            <NewsCard
+          return <NewsCard
               key={news.id}
               id={news.id}
               title={news.title}
@@ -53,7 +52,6 @@ const NewsFeed = (props) => {
               url={news.url}
               handleClickNewsCard={props.handleClickNewsCard}
             />
-          </Link>
         }))}
       </ul>
     </main>
