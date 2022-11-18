@@ -19,17 +19,17 @@ const NewsPage = (props) => {
     setIsLoadingPage(true);
     const newsPage = await props.getNewsPage(newsId);
     props.changeNewsPage(newsPage);
-    if (typeof newsPage.kids !== 'undefined') {
-      getNewsComments(newsPage);
-    }
+    getNewsComments(newsPage);
     setIsLoadingPage(false);
   }
 
   async function getNewsComments(newsPage) {
-    setIsLoadingComments(true);
-    const comments = await props.getNewsComments(newsPage);
-    props.changeNewsComments(comments);
-    setIsLoadingComments(false);
+    if (typeof newsPage.kids !== 'undefined') {
+      setIsLoadingComments(true);
+      const comments = await props.getNewsComments(newsPage);
+      props.changeNewsComments(comments);
+      setIsLoadingComments(false);
+    }
   }
 
   function handleBack() {
