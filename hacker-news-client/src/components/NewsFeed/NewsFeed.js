@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { changeNewsFeed } from '../../store/NewsFeed/actions'
 import NewsCard from '../NewsCard/NewsCard';
