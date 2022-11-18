@@ -9,7 +9,7 @@ function Comment(props) {
   const [level, setLevel] = useState(0);
   const [showChildComments, setShowChildComments] = useState(false);
 
-  const text = parse(`${props.text}`);
+  const text = typeof props.text === 'undefined' ? 'Deleted comment' : parse(`${props.text}`);
 
   const handleChildComments = async () => {
     setShowChildComments(!showChildComments)
