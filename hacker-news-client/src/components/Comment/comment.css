@@ -41,7 +41,6 @@
   font-size: 12px;
   font-weight: 400;
   width: 95%;
-  
 }
 
 .comment__text pre {
@@ -64,11 +63,18 @@
   opacity: 0.7;
 }
 
+.comment__button_close {
+  transform: rotate(180deg);
+}
+
 .comment__kids {
   display: flex;
   column-gap: 5px;
 }
 
-.comment__children {
-  margin-left: calc();
+@media (max-width: 500px) {
+  .comment__text {
+    font-size: 10px;
+    width: 100%;
+  }
 }
