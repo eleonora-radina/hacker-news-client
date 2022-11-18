@@ -13,7 +13,7 @@ const NewsFeed = (props) => {
     props.changeNewsFeed(await props.getNewsFeed());
   }
 
-  const handleNewsUpdate = async() => {
+  const handleNewsUpdate = async () => {
     setIsLoading(true);
     await getNews();
     setIsLoading(false);
@@ -28,10 +28,10 @@ const NewsFeed = (props) => {
   useEffect(() => {
   }, [props.newsFeed])
 
-  //useEffect(() => {
-  //  const interval = setInterval(() => { getNews() }, 10000);
-  //  return () => clearInterval(interval);
-  //})
+  useEffect(() => {
+    const interval = setInterval(() => { getNews() }, 60000);
+    return () => clearInterval(interval);
+  })
 
   return (
     <main className='news-feed'>
@@ -40,18 +40,18 @@ const NewsFeed = (props) => {
         <button className='news-feed__button' type='button' aria-label='Update news' onClick={handleNewsUpdate} />
       </div>
       <ul className='news-feed__list'>
-      { IsLoading && <BounceLoader className='news-feed__loader'  color='#ff6600'/>}
-      { (!IsLoading && props.newsFeed) && props.newsFeed.filter(news => news.id !== null).map((news => {
+        {IsLoading && <BounceLoader className='news-feed__loader' color='#ff6600' />}
+        {(!IsLoading && props.newsFeed) && props.newsFeed.filter(news => news.id !== null).map((news => {
           return <Link to={`/item/${news.id}`} className='news-feed__link'>
-            <NewsCard 
-              key = {news.id}
-              id = {news.id}
-              title = {news.title}
-              score = {news.score}
-              by = {news.by}
-              data = {news.time}
-              url = {news.url}
-              handleClickNewsCard = {props.handleClickNewsCard}
+            <NewsCard
+              key={news.id}
+              id={news.id}
+              title={news.title}
+              score={news.score}
+              by={news.by}
+              data={news.time}
+              url={news.url}
+              handleClickNewsCard={props.handleClickNewsCard}
             />
           </Link>
         }))}

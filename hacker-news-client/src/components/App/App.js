@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import '../../vendor/fonts/inter.css';
@@ -20,7 +19,7 @@ function App() {
     return await mainApi.getAllNews()
       .then(async (news) => {
         const newsArray = await Promise.all(
-          news.slice(0, 10).map(async (newsId) => {
+          news.slice(0, 100).map(async (newsId) => {
             try {
               const newsItem = await mainApi.getNews(newsId);
               return newsItem;
@@ -90,6 +89,7 @@ function App() {
             />
           </Route>
         </Switch>
+
       </Provider>
     </div>
   );

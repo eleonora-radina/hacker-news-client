@@ -11,6 +11,13 @@
   box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.08);
 }
 
+.news-page-zone {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  row-gap: 20px;
+}
+
 .news-page__button {
   background: transparent;
   background-image: url('../../images/back.svg');

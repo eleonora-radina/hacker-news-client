@@ -1,7 +1,7 @@
 import { ACTION_CHANGE_NEWS_PAGE, ACTION_CHANGE_NEWS_COMMENTS } from './actions';
 
 const initialState = {
-  newsPage: [],
+  newsPage: {},
   newsComments: []
 };
 

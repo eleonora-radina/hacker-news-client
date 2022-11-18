@@ -32,27 +32,27 @@ function Comment(props) {
           {props.kids &&
             <div className='comment__kids'>
               <p className='comment__about'>{props.kids.length}</p>
-              <button className={`comment__button ${showChildComments ? 'comment__button_close' : ''}`} type='button' aria-label='Показать больше' onClick={async () => {await handleChildComments()}}/>
+              <button className={`comment__button ${showChildComments ? 'comment__button_close' : ''}`} type='button' aria-label='Показать больше' onClick={async () => { await handleChildComments() }} />
             </div>
           }
         </div>
 
         <div className='comment__text'>{text}</div>
       </div>
-      <div className='comment__children' style={{marginLeft: `${level*35}px`}}>
-      {
-        (showChildComments && childComments) && childComments.filter(comment => comment.id !== null).map((comment) => {
-          return <Comment 
-            key = {comment.id}
-            id = {comment.id}
-            by = {comment.by}
-            time = {comment.time}
-            text = {comment.text}
-            kids = {comment.kids}
-            getChildComments = {props.getChildComments}
-          />
-        })
-      }
+      <div className='comment__children' style={{ marginLeft: `${level * 35}px` }}>
+        {
+          (showChildComments && childComments) && childComments.filter(comment => comment.id !== null).map((comment) => {
+            return <Comment
+              key={comment.id}
+              id={comment.id}
+              by={comment.by}
+              time={comment.time}
+              text={comment.text}
+              kids={comment.kids}
+              getChildComments={props.getChildComments}
+            />
+          })
+        }
       </div>
     </section>
   )
