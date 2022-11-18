@@ -41,7 +41,7 @@ const NewsFeed = (props) => {
       </div>
       <ul className='news-feed__list'>
         {IsLoading && <BounceLoader className='news-feed__loader' color='#ff6600' />}
-        {(!IsLoading && props.newsFeed) && props.newsFeed.filter(news => news.id !== null).map((news => {
+        {(!IsLoading && props.newsFeed) && props.newsFeed.filter(news => news.id !== null && news.deleted !== true).map((news => {
           return <NewsCard
               key={news.id}
               id={news.id}
