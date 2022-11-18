@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './comment.css'
 import moment from 'moment';
 import parse from 'html-react-parser';
